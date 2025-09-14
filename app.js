@@ -91,22 +91,23 @@ app.post('/send', ensureAuthenticated, (req, res) => {
     const minute = m.minute();
 
     // Google Maps link from lat/lng
-    const mapLink = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    const mapLink = latitude && longitude ? `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}` : null
+    const locationMapLink = `https://www.google.com/maps/search/?api=1&query=${location}`;
 
-    const event = {
+    let event = {
         start: [year, month, day, hour, minute],
         duration: { hours: 2 },
         title: title || 'Meeting',
         description: description,
         location: location,
-        url: mapLink,
+        url: locationMapLink,
         status: 'CONFIRMED',
         busyStatus: 'BUSY',
         organizer: {
             name: req.user.username,
             email: req.user.email
         }
-    };
+    }
 
     createEvent(event, (error, value) => {
         if (error) {
@@ -133,7 +134,7 @@ app.post('/send', ensureAuthenticated, (req, res) => {
                     <p style="font-size: 16px;">${description}</p>
                     
                     <p>
-                        <strong>Location:</strong> ${location}<br>
+                        <strong>Location:</strong> <a href="${locationMapLink}" target="_blank" style="color: #1a73e8; text-decoration: none;">${location}</a><br>
                         <strong>Google Maps:</strong> 
                         <a href="${mapLink}" target="_blank" style="color: #1a73e8; text-decoration: none;">View on Map</a>
                     </p>

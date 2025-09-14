@@ -54,6 +54,8 @@ flatpickr("#datetime", {
     dateFormat: "Y-m-d H:i",    // backend-friendly format
     defaultDate: today,
     minDate: "today",
+    altInput: true,             // show a pretty alternate input
+    altFormat: "d-m-Y H:i",
     time_24hr: true             // 24-hour format
 });
 
@@ -92,13 +94,12 @@ $(document).ready(function () {
                     showConfirmButton: false
                 });
 
-                // Clear form and map fields
-                $('#meetForm')[0].reset();
-                $('#latitude').val('');
-                $('#longitude').val('');
-                // Optional: remove map marker
+                $('#meetForm')[0].reset()
                 if (marker) {
                     map.removeLayer(marker);
+                    $('#latitude').val('');
+                    $('#longitude').val('');
+                    marker = null
                 }
             },
             error: function (xhr, status, error) {
