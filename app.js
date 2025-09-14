@@ -4,8 +4,6 @@ const moment = require('moment');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const { createEvent } = require('ics');
-const fs = require('fs');
-const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -76,7 +74,6 @@ app.get('/form', ensureAuthenticated, (req, res) => {
 });
 
 // Handle form submission
-// Handle form submission
 app.post('/send', ensureAuthenticated, (req, res) => {
     const { title, location, latitude, longitude, description, date, time } = req.body;
 
@@ -106,8 +103,8 @@ app.post('/send', ensureAuthenticated, (req, res) => {
         status: 'CONFIRMED',
         busyStatus: 'BUSY',
         organizer: {
-            name: req.user.username,      // take organizer from logged in user
-            email: req.user.email         // take email from logged in user
+            name: req.user.username,
+            email: req.user.email
         }
     };
 
